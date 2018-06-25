@@ -1,0 +1,36 @@
+{
+  "name": "redux-saga-demo",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@types/prop-types": "^15.5.3",
+    "@types/reselect": "^2.2.0",
+    "@types/toastr": "^2.1.35",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-redux": "^5.0.7",
+    "react-scripts-ts": "2.16.0",
+    "redux": "^4.0.0",
+    "redux-logger": "^3.0.6",
+    "redux-saga": "^0.16.0",
+    "reselect": "^3.0.1",
+    "toastr": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.1.1",
+    "@types/node": "^10.3.4",
+    "@types/react": "^16.4.1",
+    "@types/react-dom": "^16.0.6",
+    "@types/react-redux": "^6.0.2",
+    "@types/redux-logger": "^3.0.6",
+    "redux-devtools-extension": "^2.13.5",
+    "typescript": "^2.9.2"
+  }
+}
