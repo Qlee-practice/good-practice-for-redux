@@ -20,7 +20,7 @@ describe('Process -- tasks', () => {
     });
 
     it('should add the task to list when a task is created', async () => {
-      (TaskApi.create as Mock).mockImplementation(async (name: string) => ({ id: 1, name, done: false }))
+      (TaskApi.create as Mock).mockImplementation(async (name: string) => ({ id: 1, name, done: false }));
       const taskName = 'Todo';
 
       await createTask(taskName);
@@ -28,7 +28,7 @@ describe('Process -- tasks', () => {
       expect(TaskApi.create).toBeCalledWith(taskName);
 
       const tasks = storeService.select(TasksModel.selectors.allTasks);
-      expect(tasks).toEqual([{ id: 1, name: taskName, done: false }]);
+      expect(tasks).toEqual([{ id: 1, name: taskName, done: true }]);
     });
 
 

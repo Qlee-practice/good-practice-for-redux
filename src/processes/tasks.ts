@@ -18,15 +18,20 @@ const Process = {
   create<K extends (...args: any[]) => any>(fn: K, name: string): K {
     const wrappedFn = async (...args: any[]) => {
       const event: IProcessEvent = { name, error: null, args };
+      let value = null;
       try {
-        const value = await fn.apply(null, args);
-        report(event);
-        return value
+        console.log(`<${name} with=[${args}]>`);
+        value = await fn.apply(null, args);
+        // report(event);
       } catch (e) {
+        console.log('Error: ', e.message);
         event.error = e.message;
-        report(event);
+        // report(event);
         throw e;
+      }finally {
+        console.log(`</${name}>`);
       }
+      return value;
     };
     return wrappedFn as K;
   }
@@ -39,7 +44,9 @@ export const createTask = Process.create(async (taskName: string) => {
 
   const createdTask = await TasksApi.create(taskName);
 
-  return TasksModel.actions.create(createdTask);
+  await TasksModel.actions.create(createdTask);
+
+  return toggleTask(createdTask.id);
 }, 'CreateTask');
 
 

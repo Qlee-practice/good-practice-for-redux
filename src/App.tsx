@@ -19,6 +19,7 @@ const reducers = combineReducers({
 const logger = createLogger({
   collapsed: true
 });
+
 const store: Store = createStore(reducers, composeWithDevTools(applyMiddleware(logger, makePromise)));
 storeService.setStore(store);
 
