@@ -56,7 +56,7 @@ class HomeContainerComponent extends React.PureComponent<IHomeProps, IHomeState>
 
   private toggleTask = (event: ChangeEvent<HTMLInputElement>) => {
     const taskId = Number.parseInt(event.target.value);
-    toggleTask(taskId + 100)
+    toggleTask(taskId)
       .catch(error => toastr.error(error));
   };
 

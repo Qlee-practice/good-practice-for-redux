@@ -3,13 +3,14 @@ import { storeService } from "../services/store-service";
 import { createNamespace, IAction, IDict, IModel, IResource, RESOURCE_ACTIONS, toHandler } from "../utility/common";
 
 export interface ITask {
-  id: any,
-  name: string,
-  done: boolean,
+  id?: any,
+  name?: string,
+  done?: boolean,
 }
 
-export interface ITasks extends IResource<string, ITask> {
-}
+
+export interface ITasks extends IResource<string, ITask> {}
+
 const TASK_NAMESPACE = 'tasks';
 
 // types,
@@ -20,7 +21,6 @@ const TODO_ACTION_TYPES = {
   UPDATE: createActionType(RESOURCE_ACTIONS.UPDATE),
   PATCH: createActionType(RESOURCE_ACTIONS.PATCH),
   DELETE: createActionType(RESOURCE_ACTIONS.DELETE),
-  DONE: createActionType('DONE'),
 };
 
 // actions,
@@ -31,12 +31,12 @@ const createAction = <T>(actionType: any) => (payload: T) => storeService.dispat
 
 interface ITasksAction {
   create: (task: ITask) => Promise<ITask>,
-  toggleDone: (payload: { id: number, done: boolean }) => void,
+  patch: (payload: ITask) => void,
 }
 
 const tasksActions: ITasksAction = {
   create: createAction(TODO_ACTION_TYPES.CREATE),
-  toggleDone: createAction(TODO_ACTION_TYPES.DONE),
+  patch: createAction(TODO_ACTION_TYPES.PATCH),
 };
 
 // reducers,
@@ -51,13 +51,13 @@ const data = toHandler({
   [TODO_ACTION_TYPES.CREATE](state, { payload: task }: IAction<ITask>): number[] {
     return { ...state, [task.id]: task };
   },
-  [TODO_ACTION_TYPES.DONE](state, { payload: { id, done } }: { payload: { id: number, done: boolean } }): ITasks {
-    const task = state[id];
-    return { ...state, [task.id]: { ...task, done } };
+  [TODO_ACTION_TYPES.PATCH](state, { payload: task }: { payload: ITask }): ITasks {
+    const originTask = state[task.id];
+    return { ...state, [task.id]: { ...originTask, ...task } };
   }
 }, {});
 
-const tasksReducers = combineReducers({list, data});
+const tasksReducers = combineReducers({ list, data });
 
 // selector
 
@@ -75,7 +75,6 @@ const tasksSelectors: ITaskSelector = {
 
   getTask: (taskId: number) => (rootState: any): ITask => {
     const state = rootState[TASK_NAMESPACE];
-    console.log(rootState, TASK_NAMESPACE, state);
     return state.data[taskId];
   }
 };
